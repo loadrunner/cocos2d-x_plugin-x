@@ -61,6 +61,7 @@ public:
     /**
      * @brief methods for reflections
      */
+    void callFunc(const char* funcName);
     void callFuncWithParam(const char* funcName, PluginParam* param, ...);
     void callFuncWithParam(const char* funcName, std::vector<PluginParam*> params);
 

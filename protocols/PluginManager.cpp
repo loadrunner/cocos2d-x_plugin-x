@@ -69,7 +69,7 @@ PluginProtocol* PluginManager::loadPlugin(const char* name)
 {
     PluginProtocol* pRet = NULL;
     do {
-        if (name == NULL || strlen(name) == 0) break;
+        if (name == NULL || std::strlen(name) == 0) break;
         std::map<std::string, PluginProtocol*>::iterator it = _pluginsMap.find(name);
         if (it != _pluginsMap.end())
         {
@@ -90,7 +90,7 @@ PluginProtocol* PluginManager::loadPlugin(const char* name)
 void PluginManager::unloadPlugin(const char* name)
 {
     do {
-        if (name == NULL || strlen(name) == 0) break;
+        if (name == NULL || std::strlen(name) == 0) break;
         std::map<std::string, PluginProtocol*>::iterator it = _pluginsMap.find(name);
 		if (it != _pluginsMap.end())
         {

@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include "PluginProtocol.h"
 #include <map>
 #include <string>
+#include <cstring>
 
 namespace cocos2d { namespace plugin {
 

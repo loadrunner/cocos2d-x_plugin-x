@@ -28,6 +28,7 @@ THE SOFTWARE.
 #include "ProtocolShare.h"
 #include "ProtocolSocial.h"
 #include "ProtocolUser.h"
+#include "ProtocolGameServices.h"
 #include "PluginUtilsIOS.h"
 
 #import <Foundation/Foundation.h>
@@ -37,6 +38,7 @@ THE SOFTWARE.
 #import "InterfaceShare.h"
 #import "InterfaceSocial.h"
 #import "InterfaceUser.h"
+#import "InterfaceGameServices.h"
 
 namespace cocos2d { namespace plugin {
 
@@ -108,6 +110,9 @@ PluginProtocol* PluginFactory::createPlugin(const char* name)
         if ([obj conformsToProtocol:@protocol(InterfaceUser)]) {
             pRet = new ProtocolUser();
         } else {
+		if ([obj conformsToProtocol:@protocol(InterfaceGameServices)]) {
+			pRet = new ProtocolGameServices();
+		} else {
             PluginUtilsIOS::outputLog("Plugin %s not implements a right protocol", name);
         }
 

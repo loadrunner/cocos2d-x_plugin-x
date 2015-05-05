@@ -18,6 +18,7 @@ $(addprefix ../../platform/android/, \
     ProtocolShare.cpp \
     ProtocolUser.cpp \
     ProtocolSocial.cpp \
+    ProtocolGameServices.cpp \
     AgentManager.cpp \
     FacebookAgent.cpp \
 ) \

@@ -48,6 +48,11 @@ void PluginProtocol::setDebugMode(bool isDebugMode)
     PluginUtils::callJavaFunctionWithName_oneParam(this, "setDebugMode", "(Z)V", isDebugMode);
 }
 
+void PluginProtocol::callFunc(const char* funcName)
+{
+	callFuncWithParam(funcName, NULL);
+}
+
 void PluginProtocol::callFuncWithParam(const char* funcName, PluginParam* param, ...)
 {
     std::vector<PluginParam*> allParams;
