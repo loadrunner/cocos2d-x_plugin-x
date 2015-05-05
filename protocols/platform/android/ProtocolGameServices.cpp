@@ -63,7 +63,7 @@ void ProtocolGameServices::publishScore(const std::string& id, int score)
 {
 	PluginJavaData* pData = PluginUtils::getPluginJavaData(this);
 	PluginJniMethodInfo t;
-	if (PluginJniHelper::getMethodInfo(t, pData->jclassName.c_str(), "publishScore", "(Ljava/lang/String;I;)V"))
+	if (PluginJniHelper::getMethodInfo(t, pData->jclassName.c_str(), "publishScore", "(Ljava/lang/String;I)V"))
 	{
 		jstring idd = t.env->NewStringUTF(id.c_str());
 		t.env->CallVoidMethod(pData->jobj, t.methodID, idd, score);
