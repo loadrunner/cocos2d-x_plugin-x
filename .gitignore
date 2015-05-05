@@ -32,7 +32,10 @@ ipch/
 *.opensdf
 
 # Ignore files build by ndk and eclipse
-libs/
+libs/armeabi
+libs/armeabi-v7a
+libs/x86
+libs/x86_64
 bin/
 obj/
 gen/
