@@ -389,7 +389,13 @@ public class IabHelper {
                 logError("Unable to buy item, Error response: " + getResponseDesc(response));
                 flagEndAsync();
                 result = new IabResult(response, "Unable to buy item");
-                if (listener != null) listener.onIabPurchaseFinished(result, null);
+                if (listener != null) {
+                    Purchase purchase = null;
+                    try {
+                        purchase = new Purchase(IabHelper.ITEM_TYPE_INAPP, "{'productId':'"+sku+"'}", "");
+                    } catch (Exception e) { }
+                    listener.onIabPurchaseFinished(result, purchase);
+                }
                 return;
             }
 

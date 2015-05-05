@@ -23,11 +23,14 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.plugin;
 
+import java.util.Collection;
+
 public class IAPWrapper {
 	public static final int PAYRESULT_SUCCESS = 0;
 	public static final int PAYRESULT_FAIL    = 1;
 	public static final int PAYRESULT_CANCEL  = 2;
 	public static final int PAYRESULT_TIMEOUT = 3;
+	public static final int PAYRESULT_ALREADY_OWNED = 4;
 
 	public static void onPayResult(InterfaceIAP obj, int ret, String msg) {
 		final int curRet = ret;
@@ -43,4 +46,18 @@ public class IAPWrapper {
 		});
 	}
 	private static native void nativeOnPayResult(String className, int ret, String msg);
+	
+	public static void onInventoryResult(InterfaceIAP obj, Collection<String> inventory) {
+		final String[] curInventory = inventory.toArray(new String[inventory.size()]);
+		final InterfaceIAP curObj = obj;
+		PluginWrapper.runOnGLThread(new Runnable() {
+			@Override
+			public void run() {
+				String name = curObj.getClass().getName();
+				name = name.replace('.', '/');
+				nativeOnInventoryResult(name, curInventory);
+			}
+		});
+	}
+	private static native void nativeOnInventoryResult(String className, String[] inventory);
 }
