@@ -16,8 +16,10 @@ do
     ALL_PLUGINS[$i]="${plugin_name#./}"
 done
 
-export ALL_PLUGINS
-echo "ALL_PLUGINS = (${ALL_PLUGINS[@]})"
+#export ALL_PLUGINS
+#echo "ALL_PLUGINS = (${ALL_PLUGINS[@]})"
+
+export ALL_PLUGINS=("google_analytics" "gps_games" "googleplay")
 
 # restore IFS
 IFS="$temp_ifs"
