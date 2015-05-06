@@ -25,6 +25,12 @@ public:
 	void publishScore(const std::string& id, int score);
 	void unlockAchievement(const std::string& id);
 	
+	// --Multiplayer--
+	void joinAutoMatchMultiplayer();
+	bool isInMultiplayerRoom();
+	void sendMessage(const unsigned char* buff, const int size, bool reliable = false);
+	unsigned char* readMessage();
+	
 protected:
 	
 };

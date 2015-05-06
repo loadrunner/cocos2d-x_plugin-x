@@ -18,4 +18,9 @@ public interface InterfaceGameServices {
 	public void unlockAchievement(String id);
 	
 	public boolean isSignedIn();
+	
+	public void joinAutoMatchMultiplayer();
+	public boolean isInMultiplayerRoom();
+	public void sendMessage(byte[] buff, boolean reliable);
+	public byte[] readMessage();
 }
