@@ -71,6 +71,12 @@ public:
      @param paramMap Extern parameters of the event, use NULL if not needed.
      */
 	void logEvent(const char* eventId, LogEventParamMap* paramMap = NULL);
+	/**
+     @brief log a page view.
+     @param pageName The name of the page
+     @param paramMap Extern parameters of the event, use NULL if not needed.
+     */
+	void logPageView(const char* pageName, LogEventParamMap* paramMap = NULL);
     
     /**
      @brief Track an event begin.

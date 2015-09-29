@@ -3,9 +3,10 @@ package org.cocos2dx.plugin;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.HitBuilders.EventBuilder;
 import com.google.android.gms.analytics.Tracker;
 
 import android.app.Activity;
@@ -111,14 +112,34 @@ public class GoogleAnalytics implements InterfaceAnalytics {
 		PluginWrapper.runOnMainThread(new Runnable() {
 			@Override
 			public void run() {
-				EventBuilder builder = new HitBuilders.EventBuilder();
-				builder.setCategory("generic");
+				Pattern dimensionP = Pattern.compile("dimension_([0-9]{1,2})");
+				Pattern metricP = Pattern.compile("metric_([0-9]{1,2})");
+				
+				HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder();
+				//builder.setCategory("generic");
 				builder.setAction(curId);
 				
 				Iterator<Map.Entry<String, String>> it = curParam.entrySet().iterator();
 				while (it.hasNext()) {
 					Map.Entry<String, String> entry = it.next();
-					builder.set(entry.getKey(), entry.getValue());
+					if (entry.getKey().equals("category"))
+						builder.setCategory(entry.getValue());
+					else if (entry.getKey().equals("label"))
+						builder.setLabel(entry.getValue());
+					else {
+						Matcher m = dimensionP.matcher(entry.getKey());
+						if (m.matches()) {
+							Log.e("event!!", "setting custom dimension "+ m.group(1) + " " + entry.getValue());
+							builder.setCustomDimension(Integer.parseInt(m.group(1)), entry.getValue());
+							continue;
+						}
+						m = metricP.matcher(entry.getKey());
+						if (m.matches()) {
+							Log.e("event!!", "setting custom metric "+ m.group(1) + " " + entry.getValue());
+							builder.setCustomMetric(Integer.parseInt(m.group(1)), Float.parseFloat(entry.getValue()));
+							continue;
+						}
+					}
 				}
 				
 				mTracker.send(builder.build());
@@ -127,13 +148,40 @@ public class GoogleAnalytics implements InterfaceAnalytics {
 	}
 	
 	protected void logPageView(String pageName) {
+		logPageView(pageName, new Hashtable<String, String>());
+	}
+	
+	protected void logPageView(String pageName, Hashtable<String, String> paramMap) {
 		LogD("logPageView invoked! " + pageName);
 		final String currPage = pageName;
+		final Hashtable<String, String> curParam = paramMap;
 		PluginWrapper.runOnMainThread(new Runnable() {
 			@Override
 			public void run() {
+				Pattern dimensionP = Pattern.compile("dimension_([0-9]{1,2})");
+				Pattern metricP = Pattern.compile("metric_([0-9]{1,2})");
+				
 				mTracker.setScreenName(currPage);
-				mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+				HitBuilders.ScreenViewBuilder builder = new HitBuilders.ScreenViewBuilder();
+				
+				Iterator<Map.Entry<String, String>> it = curParam.entrySet().iterator();
+				while (it.hasNext()) {
+					Map.Entry<String, String> entry = it.next();
+					Matcher m = dimensionP.matcher(entry.getKey());
+					if (m.matches()) {
+						Log.e("event!!", "setting custom dimension "+ m.group(1) + " " + entry.getValue());
+						builder.setCustomDimension(Integer.parseInt(m.group(1)), entry.getValue());
+						continue;
+					}
+					m = metricP.matcher(entry.getKey());
+					if (m.matches()) {
+						Log.e("event!!", "setting custom metric "+ m.group(1) + " " + entry.getValue());
+						builder.setCustomMetric(Integer.parseInt(m.group(1)), Float.parseFloat(entry.getValue()));
+						continue;
+					}
+				}
+				
+				mTracker.send(builder.build());
 			}
 		});
 	}

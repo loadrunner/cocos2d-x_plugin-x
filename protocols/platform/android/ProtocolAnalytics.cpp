@@ -131,6 +131,11 @@ void ProtocolAnalytics::logEvent(const char* eventId, LogEventParamMap* pParams/
 	callJavaFunctionWithName_string_map(this, "logEvent", eventId, pParams);
 }
 
+void ProtocolAnalytics::logPageView(const char* pageName, LogEventParamMap* pParams/* = NULL*/)
+{
+	callJavaFunctionWithName_string_map(this, "logPageView", pageName, pParams);
+}
+
 void ProtocolAnalytics::logTimedEventBegin(const char* eventId)
 {
 	callJavaFunctionWithName_string_map(this, "logTimedEventBegin", eventId, NULL);

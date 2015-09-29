@@ -40,6 +40,11 @@ void ProtocolAnalytics::logEvent(const char* eventId, LogEventParamMap* pParams/
 	
 }
 
+void ProtocolAnalytics::logPageView(const char* pageName, LogEventParamMap* paramMap/* = NULL*/)
+{
+	
+}
+
 void ProtocolAnalytics::logTimedEventBegin(const char* eventId)
 {
 	
